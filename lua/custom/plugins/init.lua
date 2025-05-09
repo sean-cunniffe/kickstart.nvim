@@ -2,4 +2,17 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
-return {}
+
+return {
+  {
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000,
+    config = function()
+      vim.cmd 'set background=dark'
+      vim.cmd 'colorscheme gruvbox'
+    end,
+  },
+  {
+    'onsails/lspkind.nvim',
+  },
+}

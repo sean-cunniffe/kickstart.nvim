@@ -98,23 +98,23 @@ vim.g.have_nerd_font = true
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'yaml',
-  callback = function()
-    vim.opt_local.expandtab = true
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.tabstop = 2
-    vim.opt_local.softtabstop = 2
-    vim.opt_local.foldlevel = 99
-  end,
-})
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
 
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.foldlevel = 99 -- default open
 vim.o.foldlevelstart = 99 -- open on file open
 vim.o.foldenable = true -- enable folding (required for zM/zR to work)
+-- Save file with Ctrl+S in normal, insert, and visual modes
 
+vim.keymap.set({ 'n', 'v' }, '<C-s>', ':w<CR>', { noremap = true, silent = true })
+vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>l', { noremap = true, silent = true })
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true })
 vim.keymap.set('n', '<S-Tab>', ':bprev<CR>', { noremap = true })
 vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true })
@@ -1040,6 +1040,16 @@ require('lazy').setup({
       ensure_installed = { 'json', 'yaml', 'go', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
+      fold = { enable = true },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = 'gnn', -- start selection
+          node_incremental = 'grn', -- expand selection
+          scope_incremental = 'grc', -- expand scope
+          node_decremental = 'grm', -- shrink selection
+        },
+      },
       highlight = {
         enable = true,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.

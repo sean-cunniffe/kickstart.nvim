@@ -115,10 +115,10 @@ vim.o.foldenable = true -- enable folding (required for zM/zR to work)
 
 vim.keymap.set({ 'n', 'v' }, '<C-s>', ':w<CR>', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>l', { noremap = true, silent = true })
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true })
-vim.keymap.set('n', '<S-Tab>', ':bprev<CR>', { noremap = true })
-vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true })
-vim.keymap.set('n', '<leader>bl', ':ls<CR>', { noremap = true })
+-- vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true })
+-- vim.keymap.set('n', '<S-Tab>', ':bprev<CR>', { noremap = true })
+-- vim.keymap.set('n', '<leader>bd', ':bd<CR>', { noremap = true })
+-- vim.keymap.set('n', '<leader>bl', ':ls<CR>', { noremap = true })
 -- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -434,7 +434,7 @@ require('lazy').setup({
           prompt_prefix = '🔍 ',
           selection_caret = '➤ ',
           entry_prefix = '  ',
-          initial_mode = 'insert',
+          initial_mode = 'normal',
           selection_strategy = 'reset',
           sorting_strategy = 'ascending',
           layout_strategy = 'horizontal',

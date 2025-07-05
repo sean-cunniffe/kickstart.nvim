@@ -112,7 +112,8 @@ vim.o.foldlevel = 99 -- default open
 vim.o.foldlevelstart = 99 -- open on file open
 vim.o.foldenable = true -- enable folding (required for zM/zR to work)
 -- Save file with Ctrl+S in normal, insert, and visual modes
-
+vim.keymap.set('n', 'gn', vim.diagnostic.goto_next)
+vim.keymap.set('n', 'gn', vim.diagnostic.goto_prev)
 vim.keymap.set({ 'n', 'v' }, '<C-s>', ':w<CR>', { noremap = true, silent = true })
 vim.keymap.set('i', '<C-s>', '<Esc>:w<CR>l', { noremap = true, silent = true })
 -- vim.keymap.set('n', '<Tab>', ':bnext<CR>', { noremap = true })
@@ -431,7 +432,7 @@ require('lazy').setup({
       local themes = require 'telescope.themes'
       require('telescope').setup {
         defaults = {
-          prompt_prefix = '🔍 ',
+          prompt_prefix = '',
           selection_caret = '➤ ',
           entry_prefix = '  ',
           initial_mode = 'normal',
@@ -443,9 +444,8 @@ require('lazy').setup({
               preview_width = 0.4,
             },
             prompt_position = 'top',
-            width = 0.9,
-            height = 0.85,
-            preview_cutoff = 120,
+            width = { padding = 20 },
+            height = { padding = 2 },
           },
           border = true,
           borderchars = {
@@ -458,17 +458,17 @@ require('lazy').setup({
         pickers = {
           find_files = themes.get_dropdown {
             previewer = false,
-            winblend = 15,
-            borderchars = {
-              '─',
-              '│',
-              ' ',
-              '│',
-              '╭',
-              '╮',
-              '│',
-              '│',
-            },
+            -- winblend = 15,
+            -- borderchars = {
+            --   '─',
+            --   '│',
+            --   ' ',
+            --   '│',
+            --   '╭',
+            --   '╮',
+            --   '│',
+            --   '│',
+            -- },
           },
         },
         extensions = {
@@ -610,7 +610,12 @@ require('lazy').setup({
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- Find references for the word under your cursor.
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          map('gr', function()
+            require('telescope.builtin').lsp_references {
+              fname_width = 60,
+              trim_text = true,
+            }
+          end, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.

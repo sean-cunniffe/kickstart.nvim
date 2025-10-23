@@ -805,10 +805,12 @@ require('lazy').setup({
                 '-third_party',
                 '-**/generated',
               },
+              gofumpt = true, -- optional, for stricter formatting
               analyses = {
                 unusedparams = false,
                 unusedvariable = false,
               },
+              importShortcut = true,
               staticcheck = false,
 
               -- 4. Delay diagnostics (not every keystroke)
@@ -828,32 +830,9 @@ require('lazy').setup({
             },
           },
         },
-        jsonls = {
-          -- settings = {
-          --   json = {
-          --     schemas = {
-          --       {
-          --         description = 'c2 schema',
-          --         url = { '/Users/sean.cunniffe/git/json-schema-example/schemas/c2.schema.json' },
-          --         fileMatch = { 'schema:c2' },
-          --       },
-          --     },
-          --   },
-          -- },
-        },
+        jsonls = {},
         ['golangci-lint'] = {},
         vacuum = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
-
         lua_ls = {
           -- cmd = { ... },
           -- filetypes = { ... },
@@ -1003,7 +982,7 @@ require('lazy').setup({
   },
   {
     'OXY2DEV/markview.nvim',
-    lazy = false,
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = {
       preview = {
         filetypes = { 'markdown', 'codecompanion' },
@@ -1060,7 +1039,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`

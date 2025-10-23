@@ -11,6 +11,25 @@ return {
       -- lsp_keymaps = false,
       -- other options
     },
+    config = function()
+      require('go').setup {
+        gofmt = 'goimports', -- run goimports instead of gofmt
+        max_line_len = 120, -- for golines
+        -- tag_transform = false,
+        -- lsp_cfg = true,
+        lsp_gofumpt = true, -- if you want to use gofumpt
+        lsp_on_attach = true,
+        lsp_keymaps = false, -- you can set to true if you want default keymaps
+      }
+
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        pattern = '*.go',
+        callback = function()
+          local fmt = require 'go.format'
+          fmt.gofmt()
+        end,
+      })
+    end,
     -- config = function(lp, opts)
     --   require('go').setup {
     --     gofmt = 'gofumpt',

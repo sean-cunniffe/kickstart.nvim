@@ -111,6 +111,22 @@ vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.foldlevel = 99 -- default open
 vim.o.foldlevelstart = 99 -- open on file open
 vim.o.foldenable = true -- enable folding (required for zM/zR to work)
+
+function GoToFileLine()
+  local word = vim.fn.expand '<cWORD>'
+  local path, lineno = string.match(word, '([^:]+):(%d+)')
+  if path and lineno then
+    -- Open in main window, not floating window
+    vim.cmd('pedit ' .. path) -- preview window is one option
+    vim.cmd(lineno)
+    vim.api.nvim_set_current_win(vim.fn.win_getid(vim.fn.bufwinnr(path))) -- jump to main window
+  else
+    print 'No file:line under cursor'
+  end
+end
+
+vim.keymap.set('n', 'gx', GoToFileLine, { noremap = true, silent = true })
+
 -- Save file with Ctrl+S in normal, insert, and visual modes
 vim.keymap.set('n', 'gn', vim.diagnostic.goto_prev)
 vim.keymap.set({ 'n', 'v' }, '<C-s>', ':w<CR>', { noremap = true, silent = true })
@@ -960,29 +976,10 @@ require('lazy').setup({
           update_n_lines = '',
         },
       }
-
-      -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-
-      -- ... and there is more!
-      --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
   {
     'OXY2DEV/markview.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     opts = {
       preview = {
         filetypes = { 'markdown', 'codecompanion' },

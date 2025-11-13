@@ -18,15 +18,27 @@ return {
         build = function()
           vim.system({ 'go', 'install', 'gotest.tools/gotestsum@latest' }):wait() -- Optional, but recommended
         end,
+        dependencies = {
+          'andythigpen/nvim-coverage', -- Added dependency
+        },
       },
     },
     config = function()
       local config = {
         runner = 'gotestsum', -- Optional, but recommended
+        go_test_args = {
+          '-v',
+          '-race',
+          '-count=1',
+          '-coverprofile=' .. vim.fn.getcwd() .. '/coverage.out',
+        },
       }
       require('neotest').setup {
         adapters = {
           require 'neotest-golang'(config),
+        },
+        summary = {
+          open = 'botright vsplit | vertical resize 75',
         },
       }
     end,
